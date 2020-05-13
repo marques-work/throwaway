@@ -5,10 +5,10 @@ import cd.go.contrib.plugins.configrepo.groovy.dsl.GoCD
 GoCD.script {
   branches {
     matching {
-      pattern = ~/^refs\/.+/
+      pattern = ~/^refs\/pull\/.+/
 
-      githubProvider {
-        fullRepoName = "gocd/gocd"
+      from = github {
+        fullRepoName = "marques-work/throwaway"
       }
 
       onMatch { ctx ->
@@ -21,7 +21,7 @@ GoCD.script {
             stage('tests') {
               jobs {
                 job('units') {
-                  tasks { bash { commandString = 'whoami' } }
+                  tasks { bash { commandString = 'printf "$(git branch)\\n$(git remote show origin)\\n"' } }
                 }
               }
             }
